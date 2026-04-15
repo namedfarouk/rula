@@ -537,14 +537,14 @@ export default function DemoPage() {
               </span>
               <button
                 onClick={disconnect}
-                className="text-[10px] text-black/20 hover:text-black/40 transition-colors uppercase tracking-widest"
+                className="text-[10px] text-[#44403C] hover:text-[#1C1917] transition-colors uppercase tracking-widest"
               >
                 Disconnect
               </button>
             </>
           ) : (
             <>
-              <span className="uppercase tracking-[0.2em] text-[9px] text-black/20 border border-black/[0.06] rounded-[4px] px-3 py-0.5">
+              <span className="uppercase tracking-[0.2em] text-[9px] text-[#44403C] border border-[#D6D3D1] rounded-[4px] px-3 py-0.5">
                 DEMO MODE
               </span>
               <button
@@ -559,19 +559,19 @@ export default function DemoPage() {
         </div>
         <Link
           to="/"
-          className="text-[11px] text-black/25 hover:text-black/40 transition-colors"
+          className="text-[11px] text-[#292524] hover:text-[#1C1917] transition-colors"
         >
           Back to home
         </Link>
       </div>
       {walletError && (
-        <div className="px-5 py-2 text-[11px] font-mono text-red-400/60 border-b border-black/[0.06]">
+        <div className="px-5 py-2 text-[11px] font-mono text-red-400/60 border-b border-[#D6D3D1]">
           {walletError}
         </div>
       )}
 
       {/* ── MOBILE TAB BAR ── */}
-      <div className="flex lg:hidden flex-shrink-0 border-b border-black/[0.06]">
+      <div className="flex lg:hidden flex-shrink-0 border-b border-[#D6D3D1]">
         {(["rules", "simulate", "log"] as const).map((tab) => (
           <button
             key={tab}
@@ -579,7 +579,7 @@ export default function DemoPage() {
             className={`flex-1 py-2.5 uppercase tracking-widest text-[10px] transition-colors ${
               mobileTab === tab
                 ? "text-[#3b82f6] border-b-2 border-[#3b82f6]"
-                : "text-black/25 border-b-2 border-transparent"
+                : "text-[#292524] border-b-2 border-transparent"
             }`}
           >
             {tab}
@@ -591,14 +591,14 @@ export default function DemoPage() {
       <div className="flex flex-1 min-h-0">
         {/* ── LEFT PANEL: RULE BUILDER ── */}
         <aside
-          className={`w-full lg:w-80 lg:flex-shrink-0 overflow-y-auto border-r border-black/[0.06] lg:block ${
+          className={`w-full lg:w-80 lg:flex-shrink-0 overflow-y-auto border-r border-[#D6D3D1] lg:block ${
             mobileTab === "rules" ? "block" : "hidden lg:block"
           }`}
         >
           <div className="p-4">
             {/* Header */}
             <div className="flex items-center gap-2 mb-5">
-              <span className="uppercase tracking-[0.2em] text-[10px] text-black/20">
+              <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]">
                 RULES
               </span>
               <span className="font-mono text-[11px] text-[#3b82f6]">
@@ -607,7 +607,7 @@ export default function DemoPage() {
             </div>
 
             {/* Terminal input */}
-            <div className="flex items-center gap-2 pb-3 mb-3 border-b border-black/[0.06]">
+            <div className="flex items-center gap-2 pb-3 mb-3 border-b border-[#D6D3D1]">
               <span className="font-mono text-[13px] select-none text-[#3b82f6]/40">
                 {">"}
               </span>
@@ -616,7 +616,7 @@ export default function DemoPage() {
                 value={ruleInput}
                 onChange={(e) => setRuleInput(e.target.value)}
                 placeholder="type a rule..."
-                className="flex-1 bg-transparent font-mono text-[13px] text-black/50 placeholder:text-black/25 border-none outline-none"
+                className="flex-1 bg-transparent font-mono text-[13px] text-[#0C0A09] placeholder:text-[#78716C] border-none outline-none"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
@@ -635,7 +635,7 @@ export default function DemoPage() {
                   exit={{ opacity: 0, height: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="font-mono text-[11px] text-black/25 p-3 space-y-0.5">
+                  <div className="font-mono text-[11px] text-[#292524] p-3 space-y-0.5">
                     <div>
                       <span>type: </span>
                       <span>{parsed.type}</span>
@@ -680,22 +680,22 @@ export default function DemoPage() {
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
-                    className="flex items-start gap-2.5 py-3 px-4 border-b border-black/[0.04]"
+                    className="flex items-start gap-2.5 py-3 px-4 border-b border-[#E7E5E4]"
                   >
                     {/* Status dot */}
                     <div
                       className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
-                        rule.status === "active" ? "bg-[#3b82f6]" : "bg-black/15"
+                        rule.status === "active" ? "bg-[#3b82f6]" : "bg-[#A8A29E]"
                       }`}
                     />
 
                     {/* Rule content */}
                     <div className="flex-1 min-w-0">
-                      <div className="font-mono text-[12px] text-black/40 leading-relaxed">
+                      <div className="font-mono text-[12px] text-[#1C1917] leading-relaxed">
                         {rule.raw}
                       </div>
                       <div className="flex items-center gap-3 mt-1">
-                        <span className="uppercase tracking-widest text-[9px] text-black/15">
+                        <span className="uppercase tracking-widest text-[9px] text-[#44403C]">
                           {rule.type}
                         </span>
                       </div>
@@ -703,12 +703,12 @@ export default function DemoPage() {
 
                     {/* Actions */}
                     <div className="flex items-center gap-1 flex-shrink-0 mt-0.5">
-                      <span className="font-mono text-[10px] text-black/10 mr-1">
+                      <span className="font-mono text-[10px] text-[#57534E] mr-1">
                         {rule.triggeredCount > 0 ? `${rule.triggeredCount}x` : ""}
                       </span>
                       <button
                         onClick={() => toggleRule(rule.id)}
-                        className="p-1 text-black/10 hover:text-black/30 transition-colors"
+                        className="p-1 text-[#57534E] hover:text-[#292524] transition-colors"
                       >
                         {rule.status === "active" ? (
                           <Pause className="w-3 h-3" />
@@ -718,7 +718,7 @@ export default function DemoPage() {
                       </button>
                       <button
                         onClick={() => deleteRule(rule.id)}
-                        className="p-1 text-black/10 hover:text-black/30 transition-colors"
+                        className="p-1 text-[#57534E] hover:text-[#292524] transition-colors"
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -737,7 +737,7 @@ export default function DemoPage() {
           }`}
         >
           {/* Stats row */}
-          <div className="h-12 flex items-center px-6 gap-8 flex-shrink-0 border-b border-black/[0.06]">
+          <div className="h-12 flex items-center px-6 gap-8 flex-shrink-0 border-b border-[#D6D3D1]">
             {[
               { label: connected ? "OKB" : "BALANCE", value: connected ? `${stats.balance}` : `$${stats.balance.toLocaleString()}` },
               { label: "TX", value: stats.totalTx.toString() },
@@ -746,10 +746,10 @@ export default function DemoPage() {
               ...realTokens.slice(0, 2).map((t) => ({ label: t.symbol, value: t.balance })),
             ].map((s) => (
               <div key={s.label} className="flex items-baseline">
-                <span className="font-mono text-sm text-black/50">
+                <span className="font-mono text-sm text-[#0C0A09]">
                   {s.value}
                 </span>
-                <span className="uppercase tracking-widest text-[9px] text-black/[0.12] ml-1.5">
+                <span className="uppercase tracking-widest text-[9px] text-[#44403C] ml-1.5">
                   {s.label}
                 </span>
               </div>
@@ -760,7 +760,7 @@ export default function DemoPage() {
           <div className="flex-1 overflow-y-auto">
             {/* Section label */}
             <div className="px-6 pt-6 pb-3">
-              <span className="uppercase tracking-[0.2em] text-[10px] text-black/15">
+              <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]">
                 TRANSACTION SIMULATOR
               </span>
             </div>
@@ -778,7 +778,7 @@ export default function DemoPage() {
                 className={`font-mono text-[11px] uppercase tracking-widest rounded-[4px] px-4 py-1.5 transition-colors border ${
                   autoSimulate
                     ? "border-[#3b82f6]/30 text-[#3b82f6]/60"
-                    : "border-black/[0.06] text-black/20"
+                    : "border-[#D6D3D1] text-[#44403C]"
                 }`}
               >
                 Auto{" "}
@@ -789,7 +789,7 @@ export default function DemoPage() {
               <button
                 onClick={clearTransactions}
                 disabled={transactions.length === 0}
-                className="font-mono text-[11px] uppercase tracking-widest rounded-[4px] px-4 py-1.5 transition-colors border border-black/[0.06] text-black/20 hover:text-black/40 disabled:opacity-30 disabled:cursor-default"
+                className="font-mono text-[11px] uppercase tracking-widest rounded-[4px] px-4 py-1.5 transition-colors border border-[#D6D3D1] text-[#44403C] hover:text-[#1C1917] disabled:opacity-30 disabled:cursor-default"
               >
                 Clear log
               </button>
@@ -798,7 +798,7 @@ export default function DemoPage() {
             {/* Transaction log */}
             <div className="px-6 pt-4 font-mono">
               {transactions.length === 0 ? (
-                <div className="font-mono text-[11px] text-black/10 italic py-12 text-center">
+                <div className="font-mono text-[11px] text-[#57534E] italic py-12 text-center">
                   no transactions yet...
                 </div>
               ) : (
@@ -811,14 +811,14 @@ export default function DemoPage() {
                       transition={{ duration: 0.2 }}
                     >
                       <div className="flex items-center gap-2 text-[12px] py-1">
-                        <span className="text-black/[0.12]">
+                        <span className="text-[#44403C]">
                           [{formatTime(tx.timestamp)}]
                         </span>
-                        <span className="text-black/25">
+                        <span className="text-[#292524]">
                           {truncateHash(tx.hash)}
                         </span>
-                        <span className="text-black/[0.08]">{"→"}</span>
-                        <span className="text-black/40">
+                        <span className="text-[#44403C]">{"→"}</span>
+                        <span className="text-[#1C1917]">
                           {tx.value.toFixed(2)} {tx.token}
                         </span>
                         <span
@@ -834,7 +834,7 @@ export default function DemoPage() {
                         </span>
                       </div>
                       {(tx.status === "blocked" || tx.status === "alerted") && tx.ruleFired && (
-                        <div className="text-[11px] text-black/15 pb-1" style={{ paddingLeft: "12ch" }}>
+                        <div className="text-[11px] text-[#44403C] pb-1" style={{ paddingLeft: "12ch" }}>
                           {"↳"} rule: &quot;{tx.ruleFired}&quot;
                         </div>
                       )}
@@ -848,14 +848,14 @@ export default function DemoPage() {
 
         {/* ── RIGHT PANEL: LIVE FEED ── */}
         <aside
-          className={`w-full lg:w-[340px] lg:flex-shrink-0 overflow-y-auto border-l border-black/[0.06] lg:block ${
+          className={`w-full lg:w-[340px] lg:flex-shrink-0 overflow-y-auto border-l border-[#D6D3D1] lg:block ${
             mobileTab === "log" ? "block" : "hidden lg:block"
           }`}
         >
           {/* Header */}
-          <div className="flex items-center px-4 py-3 border-b border-black/[0.06]">
+          <div className="flex items-center px-4 py-3 border-b border-[#D6D3D1]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse inline-block" />
-            <span className="uppercase tracking-[0.2em] text-[10px] text-black/15 ml-2">
+            <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C] ml-2">
               LIVE ACTIVITY
             </span>
           </div>
@@ -863,7 +863,7 @@ export default function DemoPage() {
           {/* Feed */}
           {transactions.length === 0 ? (
             <div className="flex items-center justify-center h-64">
-              <span className="font-mono text-[11px] text-black/10 italic">
+              <span className="font-mono text-[11px] text-[#57534E] italic">
                 waiting for transactions...
               </span>
             </div>
@@ -876,7 +876,7 @@ export default function DemoPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  className={`border-b border-black/[0.04] px-4 py-3 border-l-2 ${
+                  className={`border-b border-[#E7E5E4] px-4 py-3 border-l-2 ${
                     tx.status === "blocked"
                       ? "border-l-red-400/15"
                       : "border-l-[#3b82f6]/15"
@@ -893,24 +893,24 @@ export default function DemoPage() {
                     >
                       {tx.status.toUpperCase()}
                     </span>
-                    <span className="font-mono text-[10px] text-black/10">
+                    <span className="font-mono text-[10px] text-[#57534E]">
                       {relativeTime(tx.timestamp)}
                     </span>
                   </div>
 
                   {/* Row 2: hash + amount */}
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="font-mono text-[11px] text-black/25">
+                    <span className="font-mono text-[11px] text-[#292524]">
                       {truncateHash(tx.hash)}
                     </span>
-                    <span className="font-mono text-[11px] text-black/35">
+                    <span className="font-mono text-[11px] text-[#1C1917]">
                       {tx.value.toFixed(2)} {tx.token}
                     </span>
                   </div>
 
                   {/* Row 3: rule fired */}
                   {(tx.status === "blocked" || tx.status === "alerted") && tx.ruleFired && (
-                    <div className="font-mono text-[10px] text-black/[0.12] mt-1">
+                    <div className="font-mono text-[10px] text-[#44403C] mt-1">
                       rule: &quot;{tx.ruleFired}&quot;
                     </div>
                   )}
