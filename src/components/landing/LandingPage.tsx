@@ -54,14 +54,14 @@ function Nav() {
         <div className="flex items-center gap-8">
           <Link
             to="/demo"
-            className="text-xs font-medium text-gray-600 hover:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="text-[11px] font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full hover:bg-gray-100 transition-colors"
           >
             Demo
           </Link>
           {connected && address ? (
             <button
               onClick={disconnect}
-              className="text-xs whitespace-nowrap bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-700 transition-colors cursor-pointer"
+              className="text-[11px] whitespace-nowrap bg-white text-blue-600 border border-blue-600 px-4 py-1.5 rounded-full font-medium hover:bg-blue-50 transition-colors cursor-pointer"
               title={address}
             >
               {address.slice(0, 6)}...{address.slice(-4)}
@@ -70,7 +70,7 @@ function Nav() {
             <button
               onClick={connect}
               disabled={connecting}
-              className="text-sm whitespace-nowrap bg-blue-600 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer"
+              className="text-[11px] whitespace-nowrap bg-blue-600 text-white px-4 py-1.5 rounded-full font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:opacity-50"
               title={error || undefined}
             >
               {connecting ? "Connecting..." : "Connect Wallet"}
@@ -123,7 +123,7 @@ function Hero() {
         >
           <Link
             to="/demo"
-            className="text-xs whitespace-nowrap bg-blue-600 text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
+            className="inline-block mt-8 mb-6 text-[12px] whitespace-nowrap bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
           >
             Try Demo
           </Link>
@@ -481,7 +481,7 @@ function CTA() {
           <div className="mt-6">
             <Link
               to="/demo"
-              className="text-xs whitespace-nowrap bg-blue-600 text-white px-6 py-2.5 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
+              className="inline-block text-[12px] whitespace-nowrap bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
             >
               Try Demo
             </Link>
