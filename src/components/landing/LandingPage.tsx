@@ -74,7 +74,7 @@ function Nav() {
               className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-blue-600 px-4 text-xs leading-none font-medium text-white transition-colors hover:bg-blue-700 cursor-pointer disabled:opacity-50"
               title={error || undefined}
             >
-              {connecting ? "Connecting..." : "Connect Wallet"}
+              {connecting ? "Connecting..." : "Connect"}
             </button>
           )}
         </div>
@@ -126,7 +126,7 @@ function Hero() {
             to="/demo"
             className="inline-block mt-8 mb-6 text-[12px] whitespace-nowrap bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
           >
-            Try Demo
+            Demo
           </Link>
         </motion.div>
 
@@ -484,7 +484,7 @@ function CTA() {
               to="/demo"
               className="inline-block text-[12px] whitespace-nowrap bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
             >
-              Try Demo
+              Demo
             </Link>
           </div>
           <p className="font-mono text-[11px] mt-4" style={{ color: '#78716C' }}>
