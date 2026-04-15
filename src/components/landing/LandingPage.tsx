@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { Pencil, Zap, Layers, Shield } from "lucide-react";
+import { useWallet } from "../../contexts/WalletContext";
 
 /* ------------------------------------------------------------------ */
 /*  Fade-in wrapper                                                    */
@@ -37,6 +38,8 @@ function FadeIn({
 /* ------------------------------------------------------------------ */
 
 function Nav() {
+  const { address, connected, connecting, connect, disconnect, error } = useWallet();
+
   return (
     <nav style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E7E5E4' }} className="fixed top-0 left-0 right-0 z-50 h-14">
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px' }} className="h-full flex items-center justify-between">
@@ -56,12 +59,26 @@ function Nav() {
           >
             Demo
           </Link>
-          <button
-            className="rounded-[4px] px-5 py-2 text-xs uppercase tracking-wider transition-all cursor-pointer"
-            style={{ border: '1px solid #E7E5E4', color: '#44403C' }}
-          >
-            Connect Wallet
-          </button>
+          {connected && address ? (
+            <button
+              onClick={disconnect}
+              className="rounded-[4px] px-5 py-2 text-xs font-mono tracking-wider transition-all cursor-pointer"
+              style={{ border: '1px solid #2563EB', color: '#2563EB' }}
+              title={address}
+            >
+              {address.slice(0, 6)}...{address.slice(-4)}
+            </button>
+          ) : (
+            <button
+              onClick={connect}
+              disabled={connecting}
+              className="rounded-[4px] px-5 py-2 text-xs uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50"
+              style={{ border: '1px solid #E7E5E4', color: '#44403C' }}
+              title={error || undefined}
+            >
+              {connecting ? "Connecting..." : "Connect Wallet"}
+            </button>
+          )}
         </div>
       </div>
     </nav>

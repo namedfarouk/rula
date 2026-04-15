@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Pause, Play, Trash2 } from "lucide-react";
+import { useWallet } from "../../contexts/WalletContext";
+import { getTokenBalances, getTransactionHistory } from "../../utils/onchainos";
 import type {
   Rule,
   RuleType,
@@ -218,6 +220,7 @@ const defaultRules: Rule[] = [
 // ── Component ───────────────────────────────────────────────────────────────
 
 export default function DemoPage() {
+  const { address, balance, connected, connect, disconnect, connecting, error: walletError } = useWallet();
   const [rules, setRules] = useState<Rule[]>(defaultRules);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [ruleInput, setRuleInput] = useState("");
@@ -230,6 +233,58 @@ export default function DemoPage() {
     rulesActive: 3,
   });
   const [mobileTab, setMobileTab] = useState<"rules" | "simulate" | "log">("simulate");
+  const [realTokens, setRealTokens] = useState<{ symbol: string; balance: string; tokenPrice: string }[]>([]);
+
+  // Fetch real wallet data when connected
+  useEffect(() => {
+    if (!connected || !address) return;
+
+    // Update balance from wallet
+    if (balance) {
+      const okbBalance = parseFloat(balance.balanceETH);
+      setStats((s) => ({ ...s, balance: Math.round(okbBalance * 100) / 100 }));
+    }
+
+    // Fetch token balances via OnchainOS API
+    getTokenBalances(address).then((tokens) => {
+      if (tokens.length > 0) {
+        setRealTokens(tokens.map((t) => ({ symbol: t.symbol, balance: t.balance, tokenPrice: t.tokenPrice })));
+      }
+    });
+
+    // Fetch recent transaction history via OnchainOS API
+    getTransactionHistory(address, 20).then((txs) => {
+      if (txs.length > 0) {
+        const mapped: Transaction[] = txs.map((tx) => {
+          const value = parseFloat(tx.amount) || 0;
+          const txResult = evaluateRules(
+            { value, gasUsed: parseFloat(tx.txFee) || 0, timestamp: new Date(parseInt(tx.txTime) * 1000) },
+            rules
+          );
+          return {
+            id: tx.txHash.slice(0, 10),
+            hash: tx.txHash,
+            from: tx.from,
+            to: tx.to,
+            value,
+            token: tx.symbol || "OKB",
+            gasUsed: parseFloat(tx.txFee) || 0,
+            timestamp: new Date(parseInt(tx.txTime) * 1000),
+            status: txResult.status,
+            ruleId: txResult.firedRule?.id,
+            ruleFired: txResult.firedRule?.raw,
+          };
+        });
+        setTransactions(mapped);
+        setStats((s) => ({
+          ...s,
+          totalTx: mapped.length,
+          blockedTx: mapped.filter((t) => t.status === "blocked").length,
+          savedAmount: mapped.filter((t) => t.status === "blocked").reduce((sum, t) => sum + t.value, 0),
+        }));
+      }
+    });
+  }, [connected, address, balance, rules]);
 
   const parsed: ParsedRule | null =
     ruleInput.trim().length > 2 ? parseRule(ruleInput) : null;
@@ -334,9 +389,37 @@ export default function DemoPage() {
         <Link to="/" className="font-mono text-sm tracking-wider text-[#f0f0f0]">
           Rula
         </Link>
-        <span className="uppercase tracking-[0.2em] text-[9px] text-white/20 border border-white/[0.06] rounded-[4px] px-3 py-0.5">
-          DEMO MODE
-        </span>
+        <div className="flex items-center gap-3">
+          {connected && address ? (
+            <>
+              <span className="font-mono text-[11px] text-[#3b82f6]">
+                {address.slice(0, 6)}...{address.slice(-4)}
+              </span>
+              <span className="uppercase tracking-[0.2em] text-[9px] text-[#3b82f6]/60 border border-[#3b82f6]/20 rounded-[4px] px-3 py-0.5">
+                LIVE
+              </span>
+              <button
+                onClick={disconnect}
+                className="text-[10px] text-white/20 hover:text-white/40 transition-colors uppercase tracking-widest"
+              >
+                Disconnect
+              </button>
+            </>
+          ) : (
+            <>
+              <span className="uppercase tracking-[0.2em] text-[9px] text-white/20 border border-white/[0.06] rounded-[4px] px-3 py-0.5">
+                DEMO MODE
+              </span>
+              <button
+                onClick={connect}
+                disabled={connecting}
+                className="text-[10px] text-[#3b82f6]/60 hover:text-[#3b82f6] transition-colors uppercase tracking-widest disabled:opacity-30"
+              >
+                {connecting ? "Connecting..." : "Connect Wallet"}
+              </button>
+            </>
+          )}
+        </div>
         <Link
           to="/"
           className="text-[11px] text-white/25 hover:text-white/40 transition-colors"
@@ -344,6 +427,11 @@ export default function DemoPage() {
           Back to home
         </Link>
       </div>
+      {walletError && (
+        <div className="px-5 py-2 text-[11px] font-mono text-red-400/60 border-b border-white/[0.06]">
+          {walletError}
+        </div>
+      )}
 
       {/* ── MOBILE TAB BAR ── */}
       <div className="flex lg:hidden flex-shrink-0 border-b border-white/[0.06]">
@@ -514,10 +602,11 @@ export default function DemoPage() {
           {/* Stats row */}
           <div className="h-12 flex items-center px-6 gap-8 flex-shrink-0 border-b border-white/[0.06]">
             {[
-              { label: "BALANCE", value: `$${stats.balance.toLocaleString()}` },
+              { label: connected ? "OKB" : "BALANCE", value: connected ? `${stats.balance}` : `$${stats.balance.toLocaleString()}` },
               { label: "TX", value: stats.totalTx.toString() },
               { label: "BLOCKED", value: stats.blockedTx.toString() },
-              { label: "SAVED", value: `$${Math.round(stats.savedAmount)}` },
+              { label: "SAVED", value: connected ? `${Math.round(stats.savedAmount)} OKB` : `$${Math.round(stats.savedAmount)}` },
+              ...realTokens.slice(0, 2).map((t) => ({ label: t.symbol, value: t.balance })),
             ].map((s) => (
               <div key={s.label} className="flex items-baseline">
                 <span className="font-mono text-sm text-white/50">
