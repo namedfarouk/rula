@@ -55,14 +55,14 @@ function Nav() {
         <div className="flex items-center gap-8">
           <Link
             to="/demo"
-            className="text-[11px] font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full hover:bg-gray-100 transition-colors"
+            className="inline-flex h-8 items-center rounded-full px-3.5 text-xs leading-none font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
           >
             Demo
           </Link>
           {connected && address ? (
             <button
               onClick={disconnect}
-              className="text-[11px] whitespace-nowrap bg-white text-blue-600 border border-blue-600 px-4 py-1.5 rounded-full font-medium hover:bg-blue-50 transition-colors cursor-pointer"
+              className="inline-flex h-8 items-center whitespace-nowrap rounded-full border border-blue-600 bg-white px-4 text-xs leading-none font-medium text-blue-600 transition-colors hover:bg-blue-50 cursor-pointer"
               title={address}
             >
               {address.slice(0, 6)}...{address.slice(-4)}
@@ -71,7 +71,7 @@ function Nav() {
             <button
               onClick={connect}
               disabled={connecting}
-              className="text-[11px] whitespace-nowrap bg-blue-600 text-white px-4 py-1.5 rounded-full font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:opacity-50"
+              className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-blue-600 px-4 text-xs leading-none font-medium text-white transition-colors hover:bg-blue-700 cursor-pointer disabled:opacity-50"
               title={error || undefined}
             >
               {connecting ? "Connecting..." : "Connect Wallet"}
