@@ -5,7 +5,7 @@ import { Pencil, Zap, Layers, Shield } from "lucide-react";
 import { useWallet } from "../../contexts/WalletContext";
 
 /* ------------------------------------------------------------------ */
-/*  Fade-in wrapper                                                    */
+/* Fade-in wrapper                                                    */
 /* ------------------------------------------------------------------ */
 
 function FadeIn({
@@ -34,7 +34,7 @@ function FadeIn({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Nav                                                                */
+/* Nav                                                                */
 /* ------------------------------------------------------------------ */
 
 function Nav() {
@@ -54,16 +54,14 @@ function Nav() {
         <div className="flex items-center gap-8">
           <Link
             to="/demo"
-            className="text-sm transition-colors"
-            style={{ color: '#78716C' }}
+            className="text-sm font-medium text-gray-600 hover:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-100 transition-colors"
           >
             Demo
           </Link>
           {connected && address ? (
             <button
               onClick={disconnect}
-              className="rounded-[4px] px-5 py-2 text-xs font-mono tracking-wider transition-all cursor-pointer"
-              style={{ border: '1px solid #2563EB', color: '#2563EB' }}
+              className="text-sm whitespace-nowrap bg-white text-blue-600 border border-blue-600 px-6 py-2 rounded-full font-medium hover:bg-blue-50 transition-colors cursor-pointer"
               title={address}
             >
               {address.slice(0, 6)}...{address.slice(-4)}
@@ -72,8 +70,7 @@ function Nav() {
             <button
               onClick={connect}
               disabled={connecting}
-              className="rounded-[4px] px-5 py-2 text-xs uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50"
-              style={{ border: '1px solid #E7E5E4', color: '#44403C' }}
+              className="text-sm whitespace-nowrap bg-blue-600 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer"
               title={error || undefined}
             >
               {connecting ? "Connecting..." : "Connect Wallet"}
@@ -86,7 +83,7 @@ function Nav() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Hero                                                               */
+/* Hero                                                               */
 /* ------------------------------------------------------------------ */
 
 function Hero() {
@@ -97,7 +94,7 @@ function Hero() {
 
       <div className="relative max-w-3xl mx-auto text-center px-6">
         <motion.h1
-          className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]"
+          className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight"
           style={{ color: '#1C1917' }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -126,8 +123,7 @@ function Hero() {
         >
           <Link
             to="/demo"
-            className="inline-block text-white font-medium px-6 py-3 rounded-[4px] mt-8 mb-6 text-sm max-w-[160px] text-center transition-all"
-            style={{ backgroundColor: '#2563EB' }}
+            className="inline-block mt-8 mb-6 text-sm whitespace-nowrap bg-blue-600 text-white px-8 py-3 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
           >
             Try Demo
           </Link>
@@ -157,7 +153,7 @@ function Hero() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Problem                                                            */
+/* Problem                                                            */
 /* ------------------------------------------------------------------ */
 
 function Problem() {
@@ -202,7 +198,7 @@ function Problem() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  How It Works                                                       */
+/* How It Works                                                       */
 /* ------------------------------------------------------------------ */
 
 const steps = [
@@ -269,7 +265,7 @@ function HowItWorks() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Terminal Preview — STAYS DARK                                      */
+/* Terminal Preview — STAYS DARK                                      */
 /* ------------------------------------------------------------------ */
 
 interface TerminalLine {
@@ -330,7 +326,7 @@ function TerminalPreview() {
   return (
     <section style={{ paddingTop: 100, paddingBottom: 100, backgroundColor: '#0F172A' }} ref={ref}>
       <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 40px' }}>
-        <div className="rounded-[4px] overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="shadow-2xl border border-gray-800 rounded-lg overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}>
           {/* Title bar */}
           <div className="h-10 flex items-center px-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="flex items-center gap-1.5">
@@ -409,7 +405,7 @@ function TerminalPreview() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Features                                                           */
+/* Features                                                           */
 /* ------------------------------------------------------------------ */
 
 const features = [
@@ -451,8 +447,7 @@ function Features() {
             return (
               <FadeIn key={i} delay={i * 0.1}>
                 <div
-                  className="rounded-[4px] p-8 transition-all"
-                  style={{ backgroundColor: '#FFFFFF', border: '1px solid #E7E5E4' }}
+                  className="p-8 border border-gray-200 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md rounded-xl bg-white"
                 >
                   <Icon size={16} style={{ color: '#2563EB' }} />
                   <h3 className="font-medium text-sm mt-4" style={{ color: '#1C1917' }}>
@@ -472,7 +467,7 @@ function Features() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  CTA                                                                */
+/* CTA                                                                */
 /* ------------------------------------------------------------------ */
 
 function CTA() {
@@ -486,8 +481,7 @@ function CTA() {
           <div className="mt-6">
             <Link
               to="/demo"
-              className="inline-block text-white font-medium px-6 py-2.5 rounded-[4px] text-sm transition-all"
-              style={{ backgroundColor: '#2563EB' }}
+              className="inline-block text-sm whitespace-nowrap bg-blue-600 text-white px-8 py-3 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
             >
               Try Demo
             </Link>
@@ -502,7 +496,7 @@ function CTA() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Footer — DARK                                                      */
+/* Footer — DARK                                                      */
 /* ------------------------------------------------------------------ */
 
 function Footer() {
@@ -528,7 +522,7 @@ function Footer() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Landing Page                                                       */
+/* Landing Page                                                       */
 /* ------------------------------------------------------------------ */
 
 export default function LandingPage() {
