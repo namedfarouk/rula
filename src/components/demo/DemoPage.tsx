@@ -552,7 +552,7 @@ export default function DemoPage() {
                 disabled={connecting}
                 className="text-[10px] text-[#3b82f6]/60 hover:text-[#3b82f6] transition-colors uppercase tracking-widest disabled:opacity-30"
               >
-                {connecting ? "Connecting..." : "Connect"}
+                {connecting ? "Connecting..." : "Connect Wallet"}
               </button>
             </>
           )}
