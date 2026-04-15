@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Pause, Play, Trash2 } from "lucide-react";
+import { Pause, Play, Trash2, Shield } from "lucide-react";
 import { useWallet } from "../../contexts/WalletContext";
 import { getTokenBalances, getTransactionHistory } from "../../utils/onchainos";
 import type {
@@ -522,7 +522,8 @@ export default function DemoPage() {
     <div className="h-screen flex flex-col bg-[#000000] text-[#f0f0f0]">
       {/* ── TOP BAR ── */}
       <div className="h-14 flex items-center justify-between px-5 flex-shrink-0 border-b border-white/[0.06]">
-        <Link to="/" className="font-mono text-sm tracking-wider text-[#f0f0f0]">
+        <Link to="/" className="font-mono text-sm tracking-wider text-[#f0f0f0] flex items-center gap-2">
+          <Shield size={16} strokeWidth={2.5} fill="#3b82f6" color="#000000" />
           Rula
         </Link>
         <div className="flex items-center gap-3">

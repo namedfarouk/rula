@@ -45,9 +45,10 @@ function Nav() {
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px' }} className="h-full flex items-center justify-between">
         <Link
           to="/"
-          className="font-mono text-lg font-bold tracking-wider"
+          className="font-mono text-lg font-bold tracking-wider flex items-center gap-2"
           style={{ color: '#2563EB' }}
         >
+          <Shield size={20} strokeWidth={2.5} fill="#2563EB" color="#FFFFFF" />
           Rula
         </Link>
 
@@ -503,7 +504,10 @@ function Footer() {
   return (
     <footer style={{ backgroundColor: '#1C1917', padding: '32px 0' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px' }} className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <span className="font-mono text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Rula</span>
+        <span className="font-mono text-sm flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <Shield size={14} strokeWidth={2.5} fill="rgba(255,255,255,0.4)" color="#1C1917" />
+          Rula
+        </span>
         <span className="text-[11px] text-center" style={{ color: 'rgba(255,255,255,0.3)' }}>
           Built for OKX Build X Hackathon &middot; Powered by OnchainOS
         </span>
