@@ -217,20 +217,138 @@ const defaultRules: Rule[] = [
   },
 ];
 
+// ── Local demo persistence ──────────────────────────────────────────────────
+
+const STORAGE_KEYS = {
+  rules: "rula.demo.rules.v1",
+  transactions: "rula.demo.transactions.v1",
+  auto: "rula.demo.auto.v1",
+} as const;
+
+function safeParse(raw: string | null): unknown {
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function normalizeRule(input: unknown): Rule | null {
+  if (!input || typeof input !== "object") return null;
+  const obj = input as Partial<Rule>;
+
+  if (typeof obj.raw !== "string" || typeof obj.label !== "string" || typeof obj.condition !== "string") {
+    return null;
+  }
+
+  const type: RuleType =
+    obj.type === "limit" ||
+    obj.type === "block" ||
+    obj.type === "alert" ||
+    obj.type === "schedule"
+      ? obj.type
+      : "block";
+
+  const status = obj.status === "paused" || obj.status === "triggered" ? obj.status : "active";
+
+  return {
+    id: typeof obj.id === "string" ? obj.id : uid(),
+    raw: obj.raw,
+    type,
+    label: obj.label,
+    condition: obj.condition,
+    threshold:
+      typeof obj.threshold === "number" && Number.isFinite(obj.threshold)
+        ? obj.threshold
+        : undefined,
+    unit: typeof obj.unit === "string" ? obj.unit : undefined,
+    status,
+    triggeredCount:
+      typeof obj.triggeredCount === "number" && Number.isFinite(obj.triggeredCount)
+        ? Math.max(0, obj.triggeredCount)
+        : 0,
+    createdAt: obj.createdAt ? new Date(obj.createdAt) : new Date(),
+  };
+}
+
+function normalizeTransaction(input: unknown): Transaction | null {
+  if (!input || typeof input !== "object") return null;
+  const obj = input as Partial<Transaction>;
+
+  if (
+    typeof obj.id !== "string" ||
+    typeof obj.hash !== "string" ||
+    typeof obj.from !== "string" ||
+    typeof obj.to !== "string" ||
+    typeof obj.value !== "number" ||
+    !Number.isFinite(obj.value) ||
+    typeof obj.token !== "string" ||
+    typeof obj.gasUsed !== "number" ||
+    !Number.isFinite(obj.gasUsed)
+  ) {
+    return null;
+  }
+
+  const status: TxStatus =
+    obj.status === "blocked" || obj.status === "alerted" ? obj.status : "allowed";
+
+  return {
+    id: obj.id,
+    hash: obj.hash,
+    from: obj.from,
+    to: obj.to,
+    value: obj.value,
+    token: obj.token,
+    gasUsed: obj.gasUsed,
+    timestamp: obj.timestamp ? new Date(obj.timestamp) : new Date(),
+    status,
+    ruleId: typeof obj.ruleId === "string" ? obj.ruleId : undefined,
+    ruleFired: typeof obj.ruleFired === "string" ? obj.ruleFired : undefined,
+  };
+}
+
+function loadStoredRules(): Rule[] {
+  if (typeof window === "undefined") return defaultRules;
+  const parsed = safeParse(window.localStorage.getItem(STORAGE_KEYS.rules));
+  if (!Array.isArray(parsed)) return defaultRules;
+
+  const normalized = parsed.map(normalizeRule).filter((rule): rule is Rule => rule !== null);
+  return normalized.length === parsed.length ? normalized : defaultRules;
+}
+
+function loadStoredTransactions(): Transaction[] {
+  if (typeof window === "undefined") return [];
+  const parsed = safeParse(window.localStorage.getItem(STORAGE_KEYS.transactions));
+  if (!Array.isArray(parsed)) return [];
+
+  return parsed
+    .map(normalizeTransaction)
+    .filter((tx): tx is Transaction => tx !== null)
+    .slice(0, 100);
+}
+
+function loadStoredAutoSimulate(): boolean {
+  if (typeof window === "undefined") return false;
+  return safeParse(window.localStorage.getItem(STORAGE_KEYS.auto)) === true;
+}
+
 // ── Component ───────────────────────────────────────────────────────────────
 
 export default function DemoPage() {
   const { address, balance, connected, connect, disconnect, connecting, error: walletError } = useWallet();
-  const [rules, setRules] = useState<Rule[]>(defaultRules);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [rules, setRules] = useState<Rule[]>(() => loadStoredRules());
+  const [transactions, setTransactions] = useState<Transaction[]>(() => loadStoredTransactions());
   const [ruleInput, setRuleInput] = useState("");
-  const [autoSimulate, setAutoSimulate] = useState(false);
+  const [autoSimulate, setAutoSimulate] = useState<boolean>(() => loadStoredAutoSimulate());
   const [stats, setStats] = useState<WalletStats>({
     balance: 4827,
-    totalTx: 0,
-    blockedTx: 0,
-    savedAmount: 0,
-    rulesActive: 3,
+    totalTx: transactions.length,
+    blockedTx: transactions.filter((tx) => tx.status === "blocked").length,
+    savedAmount: transactions
+      .filter((tx) => tx.status === "blocked")
+      .reduce((sum, tx) => sum + tx.value, 0),
+    rulesActive: rules.filter((rule) => rule.status === "active").length,
   });
   const [mobileTab, setMobileTab] = useState<"rules" | "simulate" | "log">("simulate");
   const [realTokens, setRealTokens] = useState<{ symbol: string; balance: string; tokenPrice: string }[]>([]);
@@ -276,12 +394,6 @@ export default function DemoPage() {
           };
         });
         setTransactions(mapped);
-        setStats((s) => ({
-          ...s,
-          totalTx: mapped.length,
-          blockedTx: mapped.filter((t) => t.status === "blocked").length,
-          savedAmount: mapped.filter((t) => t.status === "blocked").reduce((sum, t) => sum + t.value, 0),
-        }));
       }
     });
   }, [connected, address, balance, rules]);
@@ -295,6 +407,32 @@ export default function DemoPage() {
       rulesActive: rules.filter((r) => r.status === "active").length,
     }));
   }, [rules]);
+
+  useEffect(() => {
+    setStats((s) => ({
+      ...s,
+      totalTx: transactions.length,
+      blockedTx: transactions.filter((tx) => tx.status === "blocked").length,
+      savedAmount: transactions
+        .filter((tx) => tx.status === "blocked")
+        .reduce((sum, tx) => sum + tx.value, 0),
+    }));
+  }, [transactions]);
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEYS.rules, JSON.stringify(rules));
+  }, [rules]);
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      STORAGE_KEYS.transactions,
+      JSON.stringify(transactions.slice(0, 100))
+    );
+  }, [transactions]);
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEYS.auto, JSON.stringify(autoSimulate));
+  }, [autoSimulate]);
 
   const simulateTransaction = useCallback(() => {
     const tokens = ["ETH", "USDT", "OKB"];
@@ -328,12 +466,6 @@ export default function DemoPage() {
     }
 
     setTransactions((prev) => [tx, ...prev].slice(0, 100));
-    setStats((s) => ({
-      ...s,
-      totalTx: s.totalTx + 1,
-      blockedTx: s.blockedTx + (status === "blocked" ? 1 : 0),
-      savedAmount: s.savedAmount + (status === "blocked" ? value : 0),
-    }));
   }, [rules]);
 
   useEffect(() => {
@@ -371,6 +503,10 @@ export default function DemoPage() {
 
   const deleteRule = (id: string) => {
     setRules((prev) => prev.filter((r) => r.id !== id));
+  };
+
+  const clearTransactions = () => {
+    setTransactions([]);
   };
 
   // Relative time ticker
@@ -648,6 +784,13 @@ export default function DemoPage() {
                 {autoSimulate && (
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse ml-1 align-middle" />
                 )}
+              </button>
+              <button
+                onClick={clearTransactions}
+                disabled={transactions.length === 0}
+                className="font-mono text-[11px] uppercase tracking-widest rounded-[4px] px-4 py-1.5 transition-colors border border-white/[0.06] text-white/20 hover:text-white/40 disabled:opacity-30 disabled:cursor-default"
+              >
+                Clear log
               </button>
             </div>
 

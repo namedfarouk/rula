@@ -508,7 +508,7 @@ function Footer() {
           Built for OKX Build X Hackathon &middot; Powered by OnchainOS
         </span>
         <a
-          href="https://github.com"
+          href="https://github.com/namedfarouk/rula"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[11px] transition-colors"
