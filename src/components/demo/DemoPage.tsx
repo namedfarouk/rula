@@ -522,14 +522,14 @@ export default function DemoPage() {
     <div className="h-screen flex flex-col" style={{ backgroundColor: '#F5F5F4', color: '#1C1917' }}>
       {/* ── TOP BAR ── */}
       <div className="h-14 flex items-center justify-between flex-shrink-0" style={{ borderBottom: '1px solid #E7E5E4', paddingLeft: 24, paddingRight: 24 }}>
-        <Link to="/" className="font-mono text-sm tracking-wider flex items-center gap-2" style={{ color: '#1C1917' }}>
+        <Link to="/" className="font-mono text-sm tracking-wider flex items-center gap-2" style={{ color: '#1C1917', fontWeight: 700 }}>
           <Shield size={16} strokeWidth={2.5} fill="#2563EB" color="#FFFFFF" />
           Rula
         </Link>
         <div className="flex items-center gap-3">
           {connected && address ? (
             <>
-              <span className="font-mono text-[11px] text-[#3b82f6]">
+              <span className="font-mono text-[11px] text-[#3b82f6]" style={{ fontWeight: 500 }}>
                 {address.slice(0, 6)}...{address.slice(-4)}
               </span>
               <span className="uppercase tracking-[0.2em] text-[9px] text-[#3b82f6]/60 border border-[#3b82f6]/20 rounded-[4px] px-3 py-0.5">
@@ -600,7 +600,7 @@ export default function DemoPage() {
           <div style={{ padding: '16px 20px' }}>
             {/* Header */}
             <div className="flex items-center justify-center gap-2 mb-5">
-              <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]">
+              <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]" style={{ fontWeight: 700 }}>
                 RULES
               </span>
               <span className="font-mono text-[11px] text-[#3b82f6]">
@@ -693,7 +693,7 @@ export default function DemoPage() {
 
                     {/* Rule content */}
                     <div className="flex-1 min-w-0">
-                      <div className="font-mono text-[12px] text-[#1C1917] leading-relaxed">
+                      <div className="font-mono text-[12px] text-[#1C1917] leading-relaxed" style={{ fontWeight: 500 }}>
                         {rule.raw}
                       </div>
                       <div className="flex items-center gap-3 mt-1">
@@ -749,7 +749,7 @@ export default function DemoPage() {
               ...realTokens.slice(0, 2).map((t) => ({ label: t.symbol, value: t.balance })),
             ].map((s) => (
               <div key={s.label} className="flex items-baseline">
-                <span className="font-mono text-sm text-[#0C0A09]">
+                <span className="font-mono text-sm text-[#0C0A09]" style={{ fontWeight: 700 }}>
                   {s.value}
                 </span>
                 <span className="uppercase tracking-widest text-[9px] text-[#44403C] ml-1.5">
@@ -763,7 +763,7 @@ export default function DemoPage() {
           <div className="flex-1 overflow-y-auto">
             {/* Section label */}
             <div className="pt-6 pb-3 flex justify-center">
-              <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]">
+              <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]" style={{ fontWeight: 700 }}>
                 TRANSACTION SIMULATOR
               </span>
             </div>
@@ -832,6 +832,7 @@ export default function DemoPage() {
                               ? "text-[#DC2626]"
                               : "text-[#2563EB]"
                           }
+                          style={{ fontWeight: 600 }}
                         >
                           {tx.status.toUpperCase()}
                         </span>
@@ -859,7 +860,7 @@ export default function DemoPage() {
           {/* Header */}
           <div className="flex items-center justify-center py-3 border-b border-[#D6D3D1]" style={{ paddingLeft: 20, paddingRight: 20 }}>
             <span className="w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse inline-block" style={{ marginRight: 8 }} />
-            <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]">
+            <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]" style={{ fontWeight: 700 }}>
               LIVE ACTIVITY
             </span>
           </div>
@@ -895,6 +896,7 @@ export default function DemoPage() {
                           ? "text-[#2563EB]"
                           : "text-[#DC2626]"
                       }`}
+                      style={{ fontWeight: 600 }}
                     >
                       {tx.status.toUpperCase()}
                     </span>
