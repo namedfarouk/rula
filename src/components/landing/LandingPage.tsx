@@ -48,7 +48,7 @@ function Nav() {
           className="font-mono text-lg font-bold tracking-wider flex items-center gap-2"
           style={{ color: '#2563EB' }}
         >
-          <Shield size={20} strokeWidth={2.5} fill="#2563EB" color="#FFFFFF" />
+          <Shield size={28} strokeWidth={2.5} fill="#2563EB" color="#FFFFFF" />
           Rula
         </Link>
 
