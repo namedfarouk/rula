@@ -55,9 +55,10 @@ function Nav() {
         <div className="flex items-center gap-8">
           <Link
             to="/demo"
-            className="inline-flex h-8 items-center rounded-full px-3.5 text-xs leading-none font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+            style={{ backgroundColor: '#2563EB', color: '#FFFFFF', borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }}
+            className="text-[10px] font-medium transition-opacity"
           >
-            Try Demo
+            Demo
           </Link>
           {connected && address ? (
             <button
@@ -71,7 +72,8 @@ function Nav() {
             <button
               onClick={connect}
               disabled={connecting}
-              className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-blue-600 px-4 text-xs leading-none font-medium text-white transition-colors hover:bg-blue-700 cursor-pointer disabled:opacity-50"
+              style={{ backgroundColor: '#2563EB', color: '#FFFFFF', borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }}
+              className="text-[10px] font-medium transition-opacity disabled:opacity-50 whitespace-nowrap"
               title={error || undefined}
             >
               {connecting ? "Connecting..." : "Connect Wallet"}
@@ -124,9 +126,10 @@ function Hero() {
         >
           <Link
             to="/demo"
-            className="inline-block mt-8 mb-6 text-[12px] whitespace-nowrap bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
+            style={{ backgroundColor: '#2563EB', color: '#FFFFFF', borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }}
+            className="inline-block mt-8 mb-6 text-[10px] font-medium whitespace-nowrap transition-opacity"
           >
-            Try Demo
+            Demo
           </Link>
         </motion.div>
 
@@ -482,9 +485,10 @@ function CTA() {
           <div className="mt-6">
             <Link
               to="/demo"
-              className="inline-block text-[12px] whitespace-nowrap bg-blue-600 text-white px-5 py-2 rounded-full font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
+              style={{ backgroundColor: '#2563EB', color: '#FFFFFF', borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }}
+              className="inline-block text-[10px] font-medium whitespace-nowrap transition-opacity"
             >
-              Try Demo
+              Demo
             </Link>
           </div>
           <p className="font-mono text-[11px] mt-4" style={{ color: '#78716C' }}>
