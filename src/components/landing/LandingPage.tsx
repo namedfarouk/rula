@@ -63,9 +63,13 @@ function Nav() {
           {connected && address ? (
             <button
               onClick={disconnect}
-              className="inline-flex h-8 items-center whitespace-nowrap rounded-full border border-blue-600 bg-white px-4 text-xs leading-none font-medium text-blue-600 transition-colors hover:bg-blue-50 cursor-pointer"
+              className="inline-flex h-8 items-center gap-2 whitespace-nowrap rounded-full border border-[#D6D3D1] bg-white px-4 text-xs leading-none font-medium text-[#1C1917] transition-colors hover:bg-gray-50 cursor-pointer"
               title={address}
             >
+              <span
+                className="inline-block w-1.5 h-1.5 rounded-full animate-pulse"
+                style={{ backgroundColor: '#22C55E' }}
+              />
               {address.slice(0, 6)}...{address.slice(-4)}
             </button>
           ) : (
@@ -76,7 +80,7 @@ function Nav() {
               className="text-[10px] font-medium transition-opacity disabled:opacity-50 whitespace-nowrap"
               title={error || undefined}
             >
-              {connecting ? "Connecting..." : "Connect Wallet"}
+              {connecting ? "Linking..." : "Link Agent Wallet"}
             </button>
           )}
         </div>

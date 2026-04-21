@@ -529,17 +529,18 @@ export default function DemoPage() {
         <div className="flex items-center gap-3">
           {connected && address ? (
             <>
-              <span className="font-mono text-[11px] text-[#3b82f6]" style={{ fontWeight: 500 }}>
+              <span className="flex items-center gap-2 font-mono text-[11px]" style={{ color: '#1C1917', fontWeight: 500 }}>
+                <span
+                  className="inline-block w-1.5 h-1.5 rounded-full animate-pulse"
+                  style={{ backgroundColor: '#22C55E' }}
+                />
                 {address.slice(0, 6)}...{address.slice(-4)}
-              </span>
-              <span className="uppercase tracking-[0.2em] text-[9px] text-[#3b82f6]/60 border border-[#3b82f6]/20 rounded-[4px] px-3 py-0.5">
-                LIVE
               </span>
               <button
                 onClick={disconnect}
                 className="text-[10px] text-[#44403C] hover:text-[#1C1917] transition-colors uppercase tracking-widest"
               >
-                Disconnect
+                Unlink
               </button>
             </>
           ) : (
@@ -553,7 +554,7 @@ export default function DemoPage() {
                 style={{ backgroundColor: '#2563EB', color: '#FFFFFF', borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }}
                 className="text-[10px] font-medium transition-opacity disabled:opacity-50"
               >
-                {connecting ? "Connecting..." : "Connect Wallet"}
+                {connecting ? "Linking..." : "Link Agent Wallet"}
               </button>
             </>
           )}

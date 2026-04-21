@@ -1,10 +1,10 @@
 import { useState, useCallback } from "react";
-import { ethers } from "ethers";
-import {
-  getWalletBalance,
-  XLAYER_CHAIN_ID,
-  type WalletBalance,
-} from "../utils/onchainos";
+import { getTokenBalances, type WalletBalance } from "../utils/onchainos";
+
+// The Agentic Wallet address Rula monitors. Signing happens server-side via
+// the OnchainOS API — there is no browser wallet popup involved.
+const AGENTIC_WALLET_ADDRESS =
+  (import.meta.env.VITE_AGENTIC_WALLET_ADDRESS as string | undefined) ?? "";
 
 interface XLayerWalletState {
   address: string | null;
@@ -12,6 +12,19 @@ interface XLayerWalletState {
   connected: boolean;
   connecting: boolean;
   error: string | null;
+}
+
+function toWei(decimal: string): bigint {
+  // Convert a decimal string (e.g. "1.23") to wei as BigInt without pulling in
+  // a signer library. Safe for up to 18 decimals of precision.
+  const [whole, frac = ""] = decimal.split(".");
+  const fracPadded = (frac + "000000000000000000").slice(0, 18);
+  const cleaned = `${whole || "0"}${fracPadded}`.replace(/^0+(?=\d)/, "");
+  try {
+    return BigInt(cleaned || "0");
+  } catch {
+    return 0n;
+  }
 }
 
 export function useXLayerWallet() {
@@ -24,66 +37,37 @@ export function useXLayerWallet() {
   });
 
   const connect = useCallback(async () => {
-    const ethereum = (window as unknown as Record<string, unknown>).ethereum as
-      | ethers.Eip1193Provider
-      | undefined;
-    if (!ethereum) {
+    if (!AGENTIC_WALLET_ADDRESS) {
       setState((s) => ({
         ...s,
-        error: "No wallet detected. Install OKX Wallet or MetaMask.",
+        error: "Agentic Wallet address not configured (VITE_AGENTIC_WALLET_ADDRESS).",
       }));
       return;
     }
 
     setState((s) => ({ ...s, connecting: true, error: null }));
 
+    // Pull real balance from OnchainOS — no browser wallet, no signature request.
+    let balanceETH = "0";
+    let balanceWei = 0n;
     try {
-      const provider = new ethers.BrowserProvider(ethereum);
-
-      // Request X Layer network switch
-      try {
-        await ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: `0x${XLAYER_CHAIN_ID.toString(16)}` }],
-        });
-      } catch {
-        // Chain not added — add it
-        await ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [
-            {
-              chainId: `0x${XLAYER_CHAIN_ID.toString(16)}`,
-              chainName: "X Layer",
-              nativeCurrency: { name: "OKB", symbol: "OKB", decimals: 18 },
-              rpcUrls: ["https://rpc.xlayer.tech"],
-              blockExplorerUrls: [
-                "https://www.okx.com/web3/explorer/xlayer",
-              ],
-            },
-          ],
-        });
+      const tokens = await getTokenBalances(AGENTIC_WALLET_ADDRESS);
+      const okb = tokens.find((t) => t.symbol?.toUpperCase() === "OKB");
+      if (okb?.balance) {
+        balanceETH = okb.balance;
+        balanceWei = toWei(okb.balance);
       }
-
-      const signer = await provider.getSigner();
-      const address = await signer.getAddress();
-
-      // Fetch balance from X Layer RPC
-      const balance = await getWalletBalance(address);
-
-      setState({
-        address,
-        balance,
-        connected: true,
-        connecting: false,
-        error: null,
-      });
-    } catch (err) {
-      setState((s) => ({
-        ...s,
-        connecting: false,
-        error: err instanceof Error ? err.message : "Connection failed",
-      }));
+    } catch {
+      // silent — we still link even if the balance lookup fails
     }
+
+    setState({
+      address: AGENTIC_WALLET_ADDRESS,
+      balance: { address: AGENTIC_WALLET_ADDRESS, balanceETH, balanceWei },
+      connected: true,
+      connecting: false,
+      error: null,
+    });
   }, []);
 
   const disconnect = useCallback(() => {
@@ -99,10 +83,20 @@ export function useXLayerWallet() {
   const refreshBalance = useCallback(async () => {
     if (!state.address) return;
     try {
-      const balance = await getWalletBalance(state.address);
-      setState((s) => ({ ...s, balance }));
+      const tokens = await getTokenBalances(state.address);
+      const okb = tokens.find((t) => t.symbol?.toUpperCase() === "OKB");
+      if (okb?.balance) {
+        setState((s) => ({
+          ...s,
+          balance: {
+            address: state.address!,
+            balanceETH: okb.balance,
+            balanceWei: toWei(okb.balance),
+          },
+        }));
+      }
     } catch {
-      // silent fail on refresh
+      // silent
     }
   }, [state.address]);
 
