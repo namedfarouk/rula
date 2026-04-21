@@ -599,7 +599,7 @@ export default function DemoPage() {
         >
           <div style={{ padding: '16px 20px' }}>
             {/* Header */}
-            <div className="flex items-center gap-2 mb-5">
+            <div className="flex items-center justify-center gap-2 mb-5">
               <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]">
                 RULES
               </span>
@@ -827,10 +827,10 @@ export default function DemoPage() {
                         <span
                           className={
                             tx.status === "allowed"
-                              ? "text-[#3b82f6]/50"
+                              ? "text-[#2563EB]"
                               : tx.status === "blocked"
-                              ? "text-red-400/50"
-                              : "text-[#3b82f6]/50"
+                              ? "text-[#DC2626]"
+                              : "text-[#2563EB]"
                           }
                         >
                           {tx.status.toUpperCase()}
@@ -857,9 +857,9 @@ export default function DemoPage() {
           style={{ width: '30%', minWidth: 280, flexShrink: 0 }}
         >
           {/* Header */}
-          <div className="flex items-center py-3 border-b border-[#D6D3D1]" style={{ paddingLeft: 20, paddingRight: 20 }}>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse inline-block" />
-            <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C] ml-2">
+          <div className="flex items-center justify-center py-3 border-b border-[#D6D3D1]" style={{ paddingLeft: 20, paddingRight: 20 }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse inline-block" style={{ marginRight: 8 }} />
+            <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]">
               LIVE ACTIVITY
             </span>
           </div>
@@ -882,8 +882,8 @@ export default function DemoPage() {
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   className={`border-b border-[#E7E5E4] py-3 border-l-2 ${
                     tx.status === "blocked"
-                      ? "border-l-red-400/15"
-                      : "border-l-[#3b82f6]/15"
+                      ? "border-l-[#DC2626]"
+                      : "border-l-[#2563EB]"
                   }`}
                   style={{ paddingLeft: 20, paddingRight: 20 }}
                 >
@@ -892,8 +892,8 @@ export default function DemoPage() {
                     <span
                       className={`text-[9px] uppercase tracking-widest ${
                         tx.status === "allowed" || tx.status === "alerted"
-                          ? "text-[#3b82f6]/40"
-                          : "text-red-400/40"
+                          ? "text-[#2563EB]"
+                          : "text-[#DC2626]"
                       }`}
                     >
                       {tx.status.toUpperCase()}
