@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { Pencil, Zap, Layers, Shield } from "lucide-react";
-import { useWallet } from "../../contexts/WalletContext";
 
 /* ------------------------------------------------------------------ */
 /* Fade-in wrapper                                                    */
@@ -38,8 +37,6 @@ function FadeIn({
 /* ------------------------------------------------------------------ */
 
 function Nav() {
-  const { address, connected, connecting, connect, disconnect, error } = useWallet();
-
   return (
     <nav style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E7E5E4' }} className="fixed top-0 left-0 right-0 z-50 h-14">
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px' }} className="h-full flex items-center justify-between">
@@ -60,29 +57,13 @@ function Nav() {
           >
             Demo
           </Link>
-          {connected && address ? (
-            <button
-              onClick={disconnect}
-              className="inline-flex h-8 items-center gap-2 whitespace-nowrap rounded-full border border-[#D6D3D1] bg-white px-4 text-xs leading-none font-medium text-[#1C1917] transition-colors hover:bg-gray-50 cursor-pointer"
-              title={address}
-            >
-              <span
-                className="inline-block w-1.5 h-1.5 rounded-full animate-pulse"
-                style={{ backgroundColor: '#22C55E' }}
-              />
-              {address.slice(0, 6)}...{address.slice(-4)}
-            </button>
-          ) : (
-            <button
-              onClick={connect}
-              disabled={connecting}
-              style={{ backgroundColor: '#2563EB', color: '#FFFFFF', borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }}
-              className="text-[10px] font-medium transition-opacity disabled:opacity-50 whitespace-nowrap"
-              title={error || undefined}
-            >
-              {connecting ? "Linking..." : "Link Agent Wallet"}
-            </button>
-          )}
+          <Link
+            to="/demo"
+            style={{ backgroundColor: '#2563EB', color: '#FFFFFF', borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }}
+            className="text-[10px] font-medium transition-opacity whitespace-nowrap"
+          >
+            Get Started
+          </Link>
         </div>
       </div>
     </nav>

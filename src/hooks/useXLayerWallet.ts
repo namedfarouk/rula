@@ -4,7 +4,8 @@ import { getTokenBalances, type WalletBalance } from "../utils/onchainos";
 // The Agentic Wallet address Rula monitors. Signing happens server-side via
 // the OnchainOS API — there is no browser wallet popup involved.
 const AGENTIC_WALLET_ADDRESS =
-  (import.meta.env.VITE_AGENTIC_WALLET_ADDRESS as string | undefined) ?? "";
+  (import.meta.env.VITE_AGENTIC_WALLET_ADDRESS as string | undefined) ??
+  "0x9a263aef80aeff944da0ad6980b00b9fb74e6590";
 
 interface XLayerWalletState {
   address: string | null;
