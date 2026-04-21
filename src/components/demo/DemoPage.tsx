@@ -595,9 +595,9 @@ export default function DemoPage() {
           className={`overflow-y-auto border-r border-[#D6D3D1] lg:block ${
             mobileTab === "rules" ? "block" : "hidden lg:block"
           }`}
-          style={{ width: '25%', minWidth: 280, flexShrink: 0 }}
+          style={{ width: '30%', minWidth: 280, flexShrink: 0 }}
         >
-          <div className="p-4">
+          <div style={{ padding: '16px 20px' }}>
             {/* Header */}
             <div className="flex items-center gap-2 mb-5">
               <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]">
@@ -737,7 +737,7 @@ export default function DemoPage() {
           className={`flex flex-col min-w-0 lg:block ${
             mobileTab === "simulate" ? "block" : "hidden lg:block"
           }`}
-          style={{ width: '50%' }}
+          style={{ width: '40%' }}
         >
           {/* Stats row */}
           <div className="h-12 flex items-center justify-center gap-8 flex-shrink-0 border-b border-[#D6D3D1]">
@@ -799,7 +799,7 @@ export default function DemoPage() {
             </div>
 
             {/* Transaction log */}
-            <div className="px-6 pt-4 font-mono">
+            <div className="pt-4 font-mono" style={{ width: '90%', margin: '0 auto' }}>
               {transactions.length === 0 ? (
                 <div className="font-mono text-[11px] text-[#57534E] italic py-12 text-center">
                   no transactions yet...
@@ -854,10 +854,10 @@ export default function DemoPage() {
           className={`overflow-y-auto border-l border-[#D6D3D1] lg:block ${
             mobileTab === "log" ? "block" : "hidden lg:block"
           }`}
-          style={{ width: '25%', minWidth: 280, flexShrink: 0 }}
+          style={{ width: '30%', minWidth: 280, flexShrink: 0 }}
         >
           {/* Header */}
-          <div className="flex items-center px-4 py-3 border-b border-[#D6D3D1]">
+          <div className="flex items-center py-3 border-b border-[#D6D3D1]" style={{ paddingLeft: 20, paddingRight: 20 }}>
             <span className="w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse inline-block" />
             <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C] ml-2">
               LIVE ACTIVITY
@@ -880,11 +880,12 @@ export default function DemoPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  className={`border-b border-[#E7E5E4] px-4 py-3 border-l-2 ${
+                  className={`border-b border-[#E7E5E4] py-3 border-l-2 ${
                     tx.status === "blocked"
                       ? "border-l-red-400/15"
                       : "border-l-[#3b82f6]/15"
                   }`}
+                  style={{ paddingLeft: 20, paddingRight: 20 }}
                 >
                   {/* Row 1: status + time */}
                   <div className="flex items-center justify-between">
