@@ -522,7 +522,7 @@ export default function DemoPage() {
     <div className="h-screen flex flex-col" style={{ backgroundColor: '#F5F5F4', color: '#1C1917' }}>
       {/* ── TOP BAR ── */}
       <div className="h-14 flex items-center justify-between flex-shrink-0" style={{ borderBottom: '1px solid #E7E5E4', paddingLeft: 24, paddingRight: 24 }}>
-        <Link to="/" className="font-mono text-sm tracking-wider flex items-center gap-2" style={{ color: '#1C1917', fontWeight: 700 }}>
+        <Link to="/" className="font-mono tracking-wider flex items-center gap-2" style={{ color: '#1C1917', fontWeight: 800, fontSize: 22 }}>
           <Shield size={16} strokeWidth={2.5} fill="#2563EB" color="#FFFFFF" />
           Rula
         </Link>
