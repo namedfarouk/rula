@@ -521,7 +521,7 @@ export default function DemoPage() {
   return (
     <div className="h-screen flex flex-col" style={{ backgroundColor: '#F5F5F4', color: '#1C1917' }}>
       {/* ── TOP BAR ── */}
-      <div className="h-14 flex items-center justify-between px-5 flex-shrink-0" style={{ borderBottom: '1px solid #E7E5E4' }}>
+      <div className="h-14 flex items-center justify-between flex-shrink-0" style={{ borderBottom: '1px solid #E7E5E4', paddingLeft: 24, paddingRight: 24 }}>
         <Link to="/" className="font-mono text-sm tracking-wider flex items-center gap-2" style={{ color: '#1C1917' }}>
           <Shield size={16} strokeWidth={2.5} fill="#2563EB" color="#FFFFFF" />
           Rula
@@ -550,7 +550,8 @@ export default function DemoPage() {
               <button
                 onClick={connect}
                 disabled={connecting}
-                className="text-[10px] text-[#3b82f6]/60 hover:text-[#3b82f6] transition-colors uppercase tracking-widest disabled:opacity-30"
+                style={{ backgroundColor: '#2563EB', color: '#FFFFFF', borderRadius: 6, padding: '8px 14px', cursor: 'pointer' }}
+                className="text-[10px] font-medium transition-opacity disabled:opacity-50"
               >
                 {connecting ? "Connecting..." : "Connect Wallet"}
               </button>
@@ -591,9 +592,10 @@ export default function DemoPage() {
       <div className="flex flex-1 min-h-0">
         {/* ── LEFT PANEL: RULE BUILDER ── */}
         <aside
-          className={`w-full lg:w-80 lg:flex-shrink-0 overflow-y-auto border-r border-[#D6D3D1] lg:block ${
+          className={`overflow-y-auto border-r border-[#D6D3D1] lg:block ${
             mobileTab === "rules" ? "block" : "hidden lg:block"
           }`}
+          style={{ width: '25%', minWidth: 280, flexShrink: 0 }}
         >
           <div className="p-4">
             {/* Header */}
@@ -732,12 +734,13 @@ export default function DemoPage() {
 
         {/* ── CENTER PANEL: SIMULATOR ── */}
         <main
-          className={`flex-1 flex flex-col min-w-0 lg:block ${
+          className={`flex flex-col min-w-0 lg:block ${
             mobileTab === "simulate" ? "block" : "hidden lg:block"
           }`}
+          style={{ width: '50%' }}
         >
           {/* Stats row */}
-          <div className="h-12 flex items-center px-6 gap-8 flex-shrink-0 border-b border-[#D6D3D1]">
+          <div className="h-12 flex items-center justify-center gap-8 flex-shrink-0 border-b border-[#D6D3D1]">
             {[
               { label: connected ? "OKB" : "BALANCE", value: connected ? `${stats.balance}` : `$${stats.balance.toLocaleString()}` },
               { label: "TX", value: stats.totalTx.toString() },
@@ -759,14 +762,14 @@ export default function DemoPage() {
           {/* Simulator section */}
           <div className="flex-1 overflow-y-auto">
             {/* Section label */}
-            <div className="px-6 pt-6 pb-3">
+            <div className="pt-6 pb-3 flex justify-center">
               <span className="uppercase tracking-[0.2em] text-[10px] text-[#44403C]">
                 TRANSACTION SIMULATOR
               </span>
             </div>
 
             {/* Buttons */}
-            <div className="flex items-center gap-3 px-6 mb-6">
+            <div className="flex items-center justify-center gap-3 mb-6">
               <button
                 onClick={simulateTransaction}
                 className="font-mono text-[11px] uppercase tracking-widest rounded-[4px] px-4 py-1.5 transition-colors border border-[#3b82f6]/30 text-[#3b82f6]/60 hover:bg-[#3b82f6]/[0.05] hover:text-[#3b82f6]"
@@ -848,9 +851,10 @@ export default function DemoPage() {
 
         {/* ── RIGHT PANEL: LIVE FEED ── */}
         <aside
-          className={`w-full lg:w-[340px] lg:flex-shrink-0 overflow-y-auto border-l border-[#D6D3D1] lg:block ${
+          className={`overflow-y-auto border-l border-[#D6D3D1] lg:block ${
             mobileTab === "log" ? "block" : "hidden lg:block"
           }`}
+          style={{ width: '25%', minWidth: 280, flexShrink: 0 }}
         >
           {/* Header */}
           <div className="flex items-center px-4 py-3 border-b border-[#D6D3D1]">
